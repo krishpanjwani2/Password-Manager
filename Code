@@ -1,0 +1,40 @@
+import getpass
+
+def main_menu():
+    print("1. Store a password")
+    print("2. Retrieve a password")
+    print("3. Quit")
+    choice = int(input("Enter your choice: "))
+    if choice == 1:
+        store_password()
+    elif choice == 2:
+        retrieve_password()
+    elif choice == 3:
+        quit()
+    else:
+        print("Invalid choice. Try again.")
+        main_menu()
+
+def store_password():
+    website = input("Enter the website name: ")
+    username = input("Enter the username: ")
+    password = getpass.getpass(prompt="Enter the password: ")
+    with open("passwords.txt", "a") as f:
+        f.write(website + "," + username + "," + password + "\n")
+    print("Password stored.")
+    main_menu()
+
+def retrieve_password():
+    website = input("Enter the website name: ")
+    with open("passwords.txt", "r") as f:
+        for line in f:
+            line = line.strip().split(",")
+            if line[0] == website:
+                print("Username: " + line[1])
+                print("Password: " + line[2])
+                break
+        else:
+            print("Website not found.")
+    main_menu()
+
+main_menu()
